@@ -1,0 +1,6 @@
+python-telegram-bot==20.7
+flask
+google-generativeai
+pymongo
+dnspython
+nest_asyncio
