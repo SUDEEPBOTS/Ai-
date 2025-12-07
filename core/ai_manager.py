@@ -19,8 +19,9 @@ class GeminiManager:
         try:
             key = API_KEYS[self.current_key_index]
             genai.configure(api_key=key)
+            # FIXED MODEL NAME HERE 👇
             self.model = genai.GenerativeModel(
-                model_name="gemini-1.5-flash", 
+                model_name="gemini-1.5-flash-001", 
                 system_instruction="""
                 You are Yuki, a Telegram Group Manager AI.
                 Your Persona: Helpful, Strict with spammers, Obey Owner.
@@ -46,17 +47,15 @@ class GeminiManager:
             return response.text
         except Exception as e:
             error_msg = str(e)
-            # Agar limit khatam hui to key badlo
             if "429" in error_msg or "ResourceExhausted" in error_msg:
                 self.rotate_key()
-                # Ek baar retry karo nayi key se
                 try:
                     response = self.model.generate_content(prompt)
                     return response.text
                 except:
                     return json.dumps({"action": "reply", "reply": "All Keys Exhausted."})
             
-            # Agar koi aur error hai to wo screen par dikhao (Debugging ke liye)
+            # Agar model error aye, to fallback pro model par jao
             return json.dumps({"action": "reply", "reply": f"⚠️ Technical Error: {error_msg}"})
 
 ai_engine = GeminiManager()
