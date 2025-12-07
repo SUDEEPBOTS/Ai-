@@ -1,6 +1,6 @@
 python-telegram-bot==20.7
 flask
-google-generativeai
+google-generativeai>=0.7.2
 pymongo
 dnspython
 nest_asyncio
